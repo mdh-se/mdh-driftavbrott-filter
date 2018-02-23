@@ -47,6 +47,14 @@ Så här kan en konfiguration se ut i `web.xml`:
   </filter-mapping>
 ```
 
+Eftersom produkten använder mdh-driftavbrott-ws-client behöver den
+konfigurationsfilen `se.mdh.driftavbrott.properties` som ska innehålla en URL
+till mdh-driftavbrott-service. Till exempel så här:
+
+```
+se.mdh.driftavbrott.service.url=http://localhost:3301/mdh-driftavbrott/v1
+```
+
 ## Skapa en JSP i din applikation
 
 Förutom själva filterkonfigurationen behöver applikationen även en dedikerad JSP
