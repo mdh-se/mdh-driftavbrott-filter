@@ -43,8 +43,8 @@ import se.mdh.driftavbrott.modell.Driftavbrott;
     &lt;/init-param&gt;
     &lt;init-param&gt;
       &lt;description&gt;
-        Den sida som ska visas om den resurs som filtret skyddar inte är tillgänglig
-        vid tiden för accessen.
+        Den sida som ska visas om den resurs som filtret skyddar inte ska vara
+        tillgänglig vid tiden för accessen.
       &lt;/description&gt;
       &lt;param-name&gt;sida&lt;/param-name&gt;
       &lt;param-value&gt;/WEB-INF/jsp/fel/driftavbrott.jsp&lt;/param-value&gt;
@@ -58,6 +58,11 @@ import se.mdh.driftavbrott.modell.Driftavbrott;
       &lt;param-value&gt;mdh-parkering&lt;/param-value&gt;
     &lt;/init-param&gt;
   &lt;/filter&gt;
+  ...
+  &lt;filter-mapping&gt;
+    &lt;filter-name&gt;DriftavbrottFilter&lt;/filter-name&gt;
+    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+  &lt;/filter-mapping&gt;
  * </pre>
  * @author Lars Lindqvist
  * @author Dennis Lundberg
