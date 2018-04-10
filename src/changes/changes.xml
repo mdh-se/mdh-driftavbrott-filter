@@ -4,6 +4,9 @@
     <title>Ändringar</title>
   </properties>
   <body>
+    <release version="2.1.1" date="2018-04-10">
+      <action>Uppdatera beroende till mdh-driftavbrott-ws-client:2.1.1.</action>
+    </release>
     <release version="2.1.0" date="2018-03-07">
       <action>Uppgradera till commons-lang3:3.7.</action>
       <action>Uppdatera beroenden till mdh-driftavbrott-modell:1.2.0 och mdh-driftavbrott-ws-client:2.1.0.</action>
