@@ -39,6 +39,13 @@ Så här kan en konfiguration se ut i `web.xml`:
       <param-name>system</param-name>
       <param-value>mdh-parkering</param-value>
     </init-param>
+    <init-param>
+          <description>
+            Marginaler i minuter för kontroll av driftavbrott. 
+          </description>
+          <param-name>marginal</param-name>
+          <param-value>15</param-value>
+        </init-param>
   </filter>
   ...
   <filter-mapping>

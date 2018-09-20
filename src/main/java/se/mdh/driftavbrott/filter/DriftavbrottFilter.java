@@ -105,6 +105,11 @@ public class DriftavbrottFilter implements Filter {
    * <code>artifactId</code>.
    */
   private static final String PARAMETER_SYSTEM = "system";
+  /**
+   * Namn på en init-parameter, som anger den marginal som skall användas vid frågor om driftavbrott.
+   * Marginalen anges som en siffra i minuter.
+   */
+  private static final String PARAMETER_MARGINAL = "marginal";
 
   /**
    * Pågående driftavbrott.
@@ -122,6 +127,7 @@ public class DriftavbrottFilter implements Filter {
    */
   private String sida;
   private String system;
+  private int marginal;
 
   /**
    * Städar undan resurser.
@@ -135,6 +141,7 @@ public class DriftavbrottFilter implements Filter {
 //    resourceBundle_sv = null;
     sida = null;
     system = null;
+    marginal = 0;
   }
 
   /**
@@ -187,7 +194,7 @@ public class DriftavbrottFilter implements Filter {
     facade = new DriftavbrottFacade();
     List<String> kanalLista = Arrays.asList(StringUtils.split(kanaler, ","));
     try {
-      driftavbrott = facade.getPagaendeDriftavbrott(kanalLista, system);
+      driftavbrott = facade.getPagaendeDriftavbrott(kanalLista, system, marginal);
       log.debug("Hämtade detta driftavbrott:" + driftavbrott);
 //      // Berika med meddelanden från ResourceBundle om de saknas
 //      // @todo Lägg tillbaka detta vid ett senare tillfälle, fast kanske tidigare i kedjan, t.ex. i integrationskomponenten
@@ -222,11 +229,27 @@ public class DriftavbrottFilter implements Filter {
     kanaler = StringUtils.defaultString(filterConfig.getInitParameter(PARAMETER_KANALER));
     sida = StringUtils.defaultString(filterConfig.getInitParameter(PARAMETER_SIDA));
     system = StringUtils.defaultString(filterConfig.getInitParameter(PARAMETER_SYSTEM));
+    String marginalParameterValue = StringUtils.defaultString(filterConfig.getInitParameter(PARAMETER_MARGINAL));
+    if(StringUtils.isNotEmpty(marginalParameterValue)) {
+      try {
+        marginal = Integer.parseInt(marginalParameterValue);
+      }
+      catch(NumberFormatException e) {
+        log.debug(
+            "Kunde inte omvandla filterparameter med namn " + PARAMETER_MARGINAL
+                + " och värdet " + marginalParameterValue
+                + " till en integer. Sätter värdet till 0.");
+        marginal = 0;
+      }
+    } else {
+      marginal = 0;
+    }
 
     if (debugEnabled) {
       log.debug("Kanaler är '" + kanaler + "'.");
       log.debug("Driftavbrottsida är '" + sida + "'.");
       log.debug("System är '" + system + "'.");
+      log.debug("Marginal är '" + marginal + "'.");
     }
   }
 
@@ -240,7 +263,7 @@ public class DriftavbrottFilter implements Filter {
     if(driftavbrott == null) {
       return false;
     }
-    LocalDateTime nu = new LocalDateTime();
-    return !(nu.isBefore(driftavbrott.getStart()) || nu.isAfter(driftavbrott.getSlut()));
+    return LocalDateTime.now().minusMinutes(marginal).isAfter(driftavbrott.getStart()) &&
+        LocalDateTime.now().plusMinutes(marginal).isBefore(driftavbrott.getSlut());
   }
 }
