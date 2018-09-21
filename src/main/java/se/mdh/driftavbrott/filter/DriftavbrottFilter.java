@@ -73,7 +73,6 @@ public class DriftavbrottFilter implements Filter {
    * En referens till den log som klassen använder.
    */
   private static final Log log = LogFactory.getLog(DriftavbrottFilter.class);
-//  private static final String ATTRIBUTE_DRIFTAVBROTT = "driftavbrott";
   /**
    * Namn på ett attribut på driftavbrottsidan som anger nyckeln för
    * felmeddelandet.
@@ -133,8 +132,6 @@ public class DriftavbrottFilter implements Filter {
     driftavbrott = null;
     facade = null;
     kanaler = null;
-//    resourceBundle_en = null;
-//    resourceBundle_sv = null;
     sida = null;
     system = null;
     marginal = 0;
