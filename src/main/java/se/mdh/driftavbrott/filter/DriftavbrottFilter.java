@@ -118,10 +118,6 @@ public class DriftavbrottFilter implements Filter {
   private DriftavbrottFacade facade;
   private String kanaler;
   private long lastFetch = 0;
-//  private ResourceBundle resourceBundle_en = ResourceBundle.getBundle("se.mdh.servlet.filter.Driftavbrott",
-//                                                                      Locale.ENGLISH);
-//  private ResourceBundle resourceBundle_sv = ResourceBundle.getBundle("se.mdh.servlet.filter.Driftavbrott",
-//                                                                      LocaleUtils.SWEDISH);
   /**
    * Den sida som ska ha hand om presentationen.
    */
@@ -171,7 +167,6 @@ public class DriftavbrottFilter implements Filter {
                    + driftavbrott.getSlut().toString(DATE_TIME_FORMATTER));
 
       // Om nuvarande tid är utanför intervallet ska en felsida presenteras
-//      request.setAttribute(ATTRIBUTE_DRIFTAVBROTT, driftavbrott);
       request.setAttribute(ATTRIBUTE_MEDDELANDE_KEY, driftavbrott.getKanal());
       request.setAttribute(ATTRIBUTE_SLUT, driftavbrott.getSlut().toString(DATE_TIME_FORMATTER));
       request.setAttribute(ATTRIBUTE_START, driftavbrott.getStart().toString(DATE_TIME_FORMATTER));
@@ -196,19 +191,7 @@ public class DriftavbrottFilter implements Filter {
     try {
       driftavbrott = facade.getPagaendeDriftavbrott(kanalLista, system, marginal);
       log.debug("Hämtade detta driftavbrott:" + driftavbrott);
-//      // Berika med meddelanden från ResourceBundle om de saknas
-//      // @todo Lägg tillbaka detta vid ett senare tillfälle, fast kanske tidigare i kedjan, t.ex. i integrationskomponenten
-//      if(StringUtils.isEmpty(driftavbrott.getMeddelandeEn())) {
-//        driftavbrott.setMeddelandeEn(MessageFormat.format(resourceBundle_en.getString(driftavbrott.getKanal()),
-//                                                          driftavbrott.getStart().toString(DATE_TIME_FORMATTER),
-//                                                          driftavbrott.getSlut().toString(DATE_TIME_FORMATTER)));
-//      }
-//      if(StringUtils.isEmpty(driftavbrott.getMeddelandeSv())) {
-//        driftavbrott.setMeddelandeSv(MessageFormat.format(resourceBundle_sv.getString(driftavbrott.getKanal()),
-//                                                          driftavbrott.getStart().toString(DATE_TIME_FORMATTER),
-//                                                          driftavbrott.getSlut().toString(DATE_TIME_FORMATTER)));
-//      }
-//      log.info("Berikat driftavbrott:" + driftavbrott);
+
       lastFetch = new Date().getTime();
     }
     catch (WebServiceException wse) {
