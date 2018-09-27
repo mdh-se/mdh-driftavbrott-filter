@@ -6,6 +6,7 @@
   <body>
     <release version="2.2.1" date="2018-09-27">
       <action>Ta bort (felaktig) kontroll av om returnerat driftavbrott ligger inom marginaler, då det redan hanteras av servicen.</action>
+      <action>Uppdatera till mdh-parent:27.</action>
     </release>
     <release version="2.2.0" date="2018-09-25">
       <action>Uppdatera beroende till mdh-driftavbrott-ws-client:2.2.0.</action>
