@@ -15,7 +15,6 @@ import javax.xml.ws.WebServiceException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import se.mdh.driftavbrott.client.DriftavbrottFacade;
@@ -161,7 +160,8 @@ public class DriftavbrottFilter implements Filter {
       log.info("Tidpunkten för accessen begränsas av ett driftavbrottsfilter för kanalen "
                    + driftavbrott.getKanal() + " som är aktivt under tidsperioden: "
                    + driftavbrott.getStart().toString(DATE_TIME_FORMATTER) + " - "
-                   + driftavbrott.getSlut().toString(DATE_TIME_FORMATTER));
+                   + driftavbrott.getSlut().toString(DATE_TIME_FORMATTER)
+                   + " med en marginal på " + marginal + " minuter.");
 
       // Om nuvarande tid är utanför intervallet ska en felsida presenteras
       request.setAttribute(ATTRIBUTE_MEDDELANDE_KEY, driftavbrott.getKanal());
@@ -234,16 +234,11 @@ public class DriftavbrottFilter implements Filter {
   }
 
   /**
-   * Avgör om åtkomst är tillåten eller inte, baserat på implementationens
-   * datum/tider.
+   * Avgör om åtkomst är tillåten eller inte.
    *
    * @return <code>true</code> om åtkomst inte är tillåten, annars <code>false</code>
    */
   private boolean isDriftavbrott(Driftavbrott driftavbrott) {
-    if(driftavbrott == null) {
-      return false;
-    }
-    return LocalDateTime.now().minusMinutes(marginal).isAfter(driftavbrott.getStart()) &&
-        LocalDateTime.now().plusMinutes(marginal).isBefore(driftavbrott.getSlut());
+    return driftavbrott != null;
   }
 }
