@@ -5,7 +5,7 @@
   <parent>
     <groupId>se.mdh</groupId>
     <artifactId>mdh-parent</artifactId>
-    <version>30-SNAPSHOT</version>
+    <version>30</version>
     <relativePath>../mdh-parent/pom.xml</relativePath>
   </parent>
 
