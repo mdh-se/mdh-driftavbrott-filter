@@ -4,6 +4,10 @@
     <title>Ändringar</title>
   </properties>
   <body>
+    <release version="2.3.0" date="2018-MM-DD">
+      <action>Uppdatera till mdh-parent:30.</action>
+      <action>Deklarera beroende på javax.xml.ws:jaxws-api.</action>
+    </release>
     <release version="2.2.1" date="2018-09-27">
       <action>Ta bort (felaktig) kontroll av om returnerat driftavbrott ligger inom marginaler, då det redan hanteras av servicen.</action>
       <action>Uppdatera till mdh-parent:27.</action>
