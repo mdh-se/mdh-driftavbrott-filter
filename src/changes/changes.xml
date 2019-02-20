@@ -4,8 +4,8 @@
     <title>Ändringar</title>
   </properties>
   <body>
-    <release version="2.3.0" date="2018-MM-DD">
-      <action>Uppdatera till mdh-parent:30.</action>
+    <release version="2.3.0" date="2019-MM-DD">
+      <action>Uppdatera till mdh-parent:31.</action>
       <action>Deklarera beroende på javax.xml.ws:jaxws-api.</action>
       <action>Uppdatera beroenden till mdh-driftavbrott-modell:1.3.0 och mdh-driftavbrott-ws-client:2.3.0.</action>
     </release>
