@@ -5,7 +5,7 @@
   <parent>
     <groupId>se.mdh</groupId>
     <artifactId>mdh-parent</artifactId>
-    <version>31</version>
+    <version>32</version>
     <relativePath>../mdh-parent/pom.xml</relativePath>
   </parent>
 
@@ -20,8 +20,8 @@
   <scm>
     <connection>scm:git:https://github.com/mdh-se/${project.artifactId}.git</connection>
     <developerConnection>scm:git:https://github.com/mdh-se/${project.artifactId}.git</developerConnection>
-    <url>https://github.com/mdh-se/${project.artifactId}</url>
     <tag>HEAD</tag>
+    <url>https://github.com/mdh-se/${project.artifactId}</url>
   </scm>
 
   <dependencies>
