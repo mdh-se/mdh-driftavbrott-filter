@@ -1,6 +1,7 @@
 package se.mdh.driftavbrott.filter;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -15,8 +16,6 @@ import javax.xml.ws.WebServiceException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import se.mdh.driftavbrott.client.DriftavbrottFacade;
 import se.mdh.driftavbrott.modell.Driftavbrott;
 
@@ -65,7 +64,6 @@ import se.mdh.driftavbrott.modell.Driftavbrott;
  * </pre>
  * @author Lars Lindqvist
  * @author Dennis Lundberg
- * @version $Id: DriftavbrottFilter.java 49071 2018-02-02 15:10:41Z dlg01 $
  */
 public class DriftavbrottFilter implements Filter {
   /**
@@ -85,7 +83,7 @@ public class DriftavbrottFilter implements Filter {
    * Antal millisekunder som vi ska cacha ett driftavbrott.
    */
   private static final int CACHE_MILLIS = 60000;
-  private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+  private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
   /**
    * Namn på en init-parameter, som anger kanalerna som vi ska lyssna på.
    * Om man vill lyssna på flera kanaler så ska de separeras med kommatecken.
@@ -159,14 +157,14 @@ public class DriftavbrottFilter implements Filter {
     if (isDriftavbrott(driftavbrott)) {
       log.info("Tidpunkten för accessen begränsas av ett driftavbrottsfilter för kanalen "
                    + driftavbrott.getKanal() + " som är aktivt under tidsperioden: "
-                   + driftavbrott.getStart().toString(DATE_TIME_FORMATTER) + " - "
-                   + driftavbrott.getSlut().toString(DATE_TIME_FORMATTER)
+                   + DATE_TIME_FORMATTER.format(driftavbrott.getStart()) + " - "
+                   + DATE_TIME_FORMATTER.format(driftavbrott.getSlut())
                    + " med en marginal på " + marginal + " minuter.");
 
       // Om nuvarande tid är utanför intervallet ska en felsida presenteras
       request.setAttribute(ATTRIBUTE_MEDDELANDE_KEY, driftavbrott.getKanal());
-      request.setAttribute(ATTRIBUTE_SLUT, driftavbrott.getSlut().toString(DATE_TIME_FORMATTER));
-      request.setAttribute(ATTRIBUTE_START, driftavbrott.getStart().toString(DATE_TIME_FORMATTER));
+      request.setAttribute(ATTRIBUTE_SLUT, DATE_TIME_FORMATTER.format(driftavbrott.getSlut()));
+      request.setAttribute(ATTRIBUTE_START, DATE_TIME_FORMATTER.format(driftavbrott.getStart()));
 
       RequestDispatcher rd = request.getRequestDispatcher(sida);
       rd.forward(request, response);
@@ -221,7 +219,8 @@ public class DriftavbrottFilter implements Filter {
                 + " till en integer. Sätter värdet till 0.");
         marginal = 0;
       }
-    } else {
+    }
+    else {
       marginal = 0;
     }
 

@@ -4,6 +4,10 @@
     <title>Ändringar</title>
   </properties>
   <body>
+    <release version="2.4.0" date="2019-MM-DD">
+      <action issue="DRIFTAVBROTT-8">Migrera från Joda-Time till Java 8 time API.</action>
+      <action>Uppdatera beroenden till mdh-driftavbrott-modell:1.4.0 och mdh-driftavbrott-ws-client:2.4.0.</action>
+    </release>
     <release version="2.3.1" date="2019-09-17">
       <action>Laga misslyckad release av 2.3.0.</action>
     </release>
