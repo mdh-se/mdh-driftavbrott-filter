@@ -5,7 +5,7 @@
   <parent>
     <groupId>se.mdh</groupId>
     <artifactId>mdh-parent</artifactId>
-    <version>32</version>
+    <version>35-SNAPSHOT</version>
     <relativePath>../mdh-parent/pom.xml</relativePath>
   </parent>
 
@@ -39,7 +39,6 @@
     <dependency>
       <groupId>javax.xml.ws</groupId>
       <artifactId>jaxws-api</artifactId>
-      <version>${mdh.jaxws-api.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
