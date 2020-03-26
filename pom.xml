@@ -5,7 +5,7 @@
   <parent>
     <groupId>se.mdh</groupId>
     <artifactId>mdh-parent</artifactId>
-    <version>35-SNAPSHOT</version>
+    <version>36</version>
     <relativePath>../mdh-parent/pom.xml</relativePath>
   </parent>
 
@@ -33,7 +33,6 @@
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
-      <version>2.5</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -44,12 +43,12 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>3.7</version>
+      <version>3.9</version>
     </dependency>
     <dependency>
       <groupId>se.mdh.driftavbrott</groupId>
       <artifactId>mdh-driftavbrott-modell</artifactId>
-      <version>1.4.0-SNAPSHOT</version>
+      <version>1.4.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>se.mdh.driftavbrott</groupId>
