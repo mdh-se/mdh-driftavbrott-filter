@@ -4,7 +4,7 @@
     <title>Ändringar</title>
   </properties>
   <body>
-    <release version="2.4.0" date="2020-MM-DD">
+    <release version="2.4.0" date="2020-03-27">
       <action issue="DRIFTAVBROTT-8">Migrera från Joda-Time till Java 8 time API.</action>
       <action>Uppdatera beroenden till mdh-driftavbrott-modell:1.4.1 och mdh-driftavbrott-ws-client:2.4.0.</action>
       <action>Uppgradera till mdh-parent:36.</action>
