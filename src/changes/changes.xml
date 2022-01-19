@@ -1,11 +1,14 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <document xmlns="http://maven.apache.org/changes/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/xsd/changes-1.0.0.xsd">
   <properties>
-    <title>Ändringar</title>
+    <title>Ã„ndringar</title>
   </properties>
   <body>
+    <release version="2.4.1" date="2022-MM-SS">
+      <action>Konvertera kÃ¤llkoden till UTF-8 encoding.</action>
+    </release>
     <release version="2.4.0" date="2020-03-27">
-      <action issue="DRIFTAVBROTT-8">Migrera från Joda-Time till Java 8 time API.</action>
+      <action issue="DRIFTAVBROTT-8">Migrera frÃ¥n Joda-Time till Java 8 time API.</action>
       <action>Uppdatera beroenden till mdh-driftavbrott-modell:1.4.1 och mdh-driftavbrott-ws-client:2.4.0.</action>
       <action>Uppgradera till mdh-parent:36.</action>
       <action>Uppdatera beroende till commons-lang3:3.9.</action>
@@ -15,11 +18,11 @@
     </release>
     <release version="2.3.0" date="2019-09-17">
       <action>Uppgradera till mdh-parent:32.</action>
-      <action>Deklarera beroende på javax.xml.ws:jaxws-api.</action>
+      <action>Deklarera beroende pÃ¥ javax.xml.ws:jaxws-api.</action>
       <action>Uppdatera beroenden till mdh-driftavbrott-modell:1.3.0 och mdh-driftavbrott-ws-client:2.3.0.</action>
     </release>
     <release version="2.2.1" date="2018-09-27">
-      <action>Ta bort (felaktig) kontroll av om returnerat driftavbrott ligger inom marginaler, då det redan hanteras av servicen.</action>
+      <action>Ta bort (felaktig) kontroll av om returnerat driftavbrott ligger inom marginaler, dÃ¥ det redan hanteras av servicen.</action>
       <action>Uppdatera till mdh-parent:27.</action>
     </release>
     <release version="2.2.0" date="2018-09-25">
@@ -35,7 +38,7 @@
       <action>Uppgradera till mdh-parent:26.</action>
     </release>
     <release version="2.0.1" date="2018-01-08">
-      <action>Lägg till felmeddelanden för kanalen ladok.prestandaproblem.</action>
+      <action>LÃ¤gg till felmeddelanden fÃ¶r kanalen ladok.prestandaproblem.</action>
     </release>
     <release version="2.0.0" date="2017-10-03">
       <action>Uppdatera beroende till mdh-driftavbrott-ws-client:2.0.0.</action>
@@ -44,7 +47,7 @@
       <action>Uppdatera beroende till mdh-driftavbrott-ws-client:1.0.1.</action>
     </release>
     <release version="1.0.0" date="2017-09-28">
-      <action>Lägg till ett ServletFilter som hämtar pågående driftavbrott från vår driftavbrott-tjänst.</action>
+      <action>LÃ¤gg till ett ServletFilter som hÃ¤mtar pÃ¥gÃ¥ende driftavbrott frÃ¥n vÃ¥r driftavbrott-tjÃ¤nst.</action>
     </release>
   </body>
 </document>

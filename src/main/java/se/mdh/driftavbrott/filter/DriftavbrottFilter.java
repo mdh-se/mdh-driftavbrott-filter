@@ -20,21 +20,21 @@ import se.mdh.driftavbrott.client.DriftavbrottFacade;
 import se.mdh.driftavbrott.modell.Driftavbrott;
 
 /**
- * Ett <code>Filter</code> som används för att presentera ett felmeddelande
- * när någon försöker komma åt resurser under ett driftavbrott.
+ * Ett <code>Filter</code> som anvÃ¤nds fÃ¶r att presentera ett felmeddelande
+ * nÃ¤r nÃ¥gon fÃ¶rsÃ¶ker komma Ã¥t resurser under ett driftavbrott.
  * <p>
- * Här följer ett exempel på hur det kan konfigureras i web.xml:
+ * HÃ¤r fÃ¶ljer ett exempel pÃ¥ hur det kan konfigureras i web.xml:
  * <pre>
   &lt;filter&gt;
     &lt;description&gt;
-      Utför en kontroll av att resursen får användas vid tiden för accessen.
+      UtfÃ¶r en kontroll av att resursen fÃ¥r anvÃ¤ndas vid tiden fÃ¶r accessen.
     &lt;/description&gt;
     &lt;filter-name&gt;DriftavbrottFilter&lt;/filter-name&gt;
     &lt;filter-class&gt;se.mdh.driftavbrott.filter.DriftavbrottFilter&lt;/filter-class&gt;
     &lt;init-param&gt;
       &lt;description&gt;
-        De kanaler som vi ska lyssna på. Om man vill lyssna på flera kanaler
-        så ska de separeras med kommatecken.
+        De kanaler som vi ska lyssna pÃ¥. Om man vill lyssna pÃ¥ flera kanaler
+        sÃ¥ ska de separeras med kommatecken.
       &lt;/description&gt;
       &lt;param-name&gt;kanaler&lt;/param-name&gt;
       &lt;param-value&gt;ladok.produktionssattning,ladok.uppgradering&lt;/param-value&gt;
@@ -42,14 +42,14 @@ import se.mdh.driftavbrott.modell.Driftavbrott;
     &lt;init-param&gt;
       &lt;description&gt;
         Den sida som ska visas om den resurs som filtret skyddar inte ska vara
-        tillgänglig vid tiden för accessen.
+        tillgÃ¤nglig vid tiden fÃ¶r accessen.
       &lt;/description&gt;
       &lt;param-name&gt;sida&lt;/param-name&gt;
       &lt;param-value&gt;/WEB-INF/jsp/fel/driftavbrott.jsp&lt;/param-value&gt;
     &lt;/init-param&gt;
     &lt;init-param&gt;
       &lt;description&gt;
-        ArtifactId för det system som är intresserat av information om
+        ArtifactId fÃ¶r det system som Ã¤r intresserat av information om
         driftavbrott.
       &lt;/description&gt;
       &lt;param-name&gt;system&lt;/param-name&gt;
@@ -67,14 +67,14 @@ import se.mdh.driftavbrott.modell.Driftavbrott;
  */
 public class DriftavbrottFilter implements Filter {
   /**
-   * En referens till den log som klassen använder.
+   * En referens till den log som klassen anvÃ¤nder.
    */
   private static final Log log = LogFactory.getLog(DriftavbrottFilter.class);
   /**
-   * Namn på ett attribut på driftavbrottsidan som anger nyckeln för
+   * Namn pÃ¥ ett attribut pÃ¥ driftavbrottsidan som anger nyckeln fÃ¶r
    * felmeddelandet.
    * <p>
-   * Observera att värdet av denna inte får innehålla en punkt.
+   * Observera att vÃ¤rdet av denna inte fÃ¥r innehÃ¥lla en punkt.
    */
   private static final String ATTRIBUTE_MEDDELANDE_KEY = "meddelande_key";
   private static final String ATTRIBUTE_SLUT = "slut";
@@ -85,30 +85,30 @@ public class DriftavbrottFilter implements Filter {
   private static final int CACHE_MILLIS = 60000;
   private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
   /**
-   * Namn på en init-parameter, som anger kanalerna som vi ska lyssna på.
-   * Om man vill lyssna på flera kanaler så ska de separeras med kommatecken.
+   * Namn pÃ¥ en init-parameter, som anger kanalerna som vi ska lyssna pÃ¥.
+   * Om man vill lyssna pÃ¥ flera kanaler sÃ¥ ska de separeras med kommatecken.
    */
   private static final String PARAMETER_KANALER = "kanaler";
   /**
-   * Namn på den parameter som innehåller den fullständiga sökvägen till
-   * driftavbrottsidan som en användare kommer att skickas till om åtkomst
-   * till resursen inte är tillåten.
+   * Namn pÃ¥ den parameter som innehÃ¥ller den fullstÃ¤ndiga sÃ¶kvÃ¤gen till
+   * driftavbrottsidan som en anvÃ¤ndare kommer att skickas till om Ã¥tkomst
+   * till resursen inte Ã¤r tillÃ¥ten.
    */
   private static final String PARAMETER_SIDA = "sida";
   /**
-   * Namn på en init-parameter, som anger vilket system som vill ha information
+   * Namn pÃ¥ en init-parameter, som anger vilket system som vill ha information
    * om driftavbrott, dvs ditt system. Ska anges i form av
    * <code>artifactId</code>.
    */
   private static final String PARAMETER_SYSTEM = "system";
   /**
-   * Namn på en init-parameter, som anger den marginal som skall användas vid frågor om driftavbrott.
+   * Namn pÃ¥ en init-parameter, som anger den marginal som skall anvÃ¤ndas vid frÃ¥gor om driftavbrott.
    * Marginalen anges som en siffra i minuter.
    */
   private static final String PARAMETER_MARGINAL = "marginal";
 
   /**
-   * Pågående driftavbrott.
+   * PÃ¥gÃ¥ende driftavbrott.
    */
   private Driftavbrott driftavbrott;
   private DriftavbrottFacade facade;
@@ -122,7 +122,7 @@ public class DriftavbrottFilter implements Filter {
   private int marginal;
 
   /**
-   * Städar undan resurser.
+   * StÃ¤dar undan resurser.
    */
   @Override
   public void destroy() {
@@ -135,14 +135,14 @@ public class DriftavbrottFilter implements Filter {
   }
 
   /**
-   * Utför kontroll av om en resurs är tillåten att använda
-   * eller inte baserat på nuvarande tid.
+   * UtfÃ¶r kontroll av om en resurs Ã¤r tillÃ¥ten att anvÃ¤nda
+   * eller inte baserat pÃ¥ nuvarande tid.
    *
    * @param request Aktuell request
    * @param response Aktuell respons
    * @param filterChain Filterkedja
-   * @throws IOException Om ett fel i I/O-hanteringen inträffar
-   * @throws ServletException Om filtret inte kan utföras
+   * @throws IOException Om ett fel i I/O-hanteringen intrÃ¤ffar
+   * @throws ServletException Om filtret inte kan utfÃ¶ras
    */
   @Override
   public void doFilter(final ServletRequest request,
@@ -155,13 +155,13 @@ public class DriftavbrottFilter implements Filter {
     }
 
     if (isDriftavbrott(driftavbrott)) {
-      log.info("Tidpunkten för accessen begränsas av ett driftavbrottsfilter för kanalen "
-                   + driftavbrott.getKanal() + " som är aktivt under tidsperioden: "
+      log.info("Tidpunkten fÃ¶r accessen begrÃ¤nsas av ett driftavbrottsfilter fÃ¶r kanalen "
+                   + driftavbrott.getKanal() + " som Ã¤r aktivt under tidsperioden: "
                    + DATE_TIME_FORMATTER.format(driftavbrott.getStart()) + " - "
                    + DATE_TIME_FORMATTER.format(driftavbrott.getSlut())
-                   + " med en marginal på " + marginal + " minuter.");
+                   + " med en marginal pÃ¥ " + marginal + " minuter.");
 
-      // Om nuvarande tid är utanför intervallet ska en felsida presenteras
+      // Om nuvarande tid Ã¤r utanfÃ¶r intervallet ska en felsida presenteras
       request.setAttribute(ATTRIBUTE_MEDDELANDE_KEY, driftavbrott.getKanal());
       request.setAttribute(ATTRIBUTE_SLUT, DATE_TIME_FORMATTER.format(driftavbrott.getSlut()));
       request.setAttribute(ATTRIBUTE_START, DATE_TIME_FORMATTER.format(driftavbrott.getStart()));
@@ -170,27 +170,27 @@ public class DriftavbrottFilter implements Filter {
       rd.forward(request, response);
     }
     else {
-      log.debug("Tidpunkten för accessen är tillåten");
+      log.debug("Tidpunkten fÃ¶r accessen Ã¤r tillÃ¥ten");
 
-      // Om nuvarande tid är inom intervallet tillåt accessen till den tidsskyddade resursen
+      // Om nuvarande tid Ã¤r inom intervallet tillÃ¥t accessen till den tidsskyddade resursen
       filterChain.doFilter(request, response);
     }
   }
 
   /**
-   * Hämta ett pågående driftavbrott från web servicen.
+   * HÃ¤mta ett pÃ¥gÃ¥ende driftavbrott frÃ¥n web servicen.
    */
   private void fetchDriftavbrott() throws IOException {
     facade = new DriftavbrottFacade();
     List<String> kanalLista = Arrays.asList(StringUtils.split(kanaler, ","));
     try {
       driftavbrott = facade.getPagaendeDriftavbrott(kanalLista, system, marginal);
-      log.debug("Hämtade detta driftavbrott:" + driftavbrott);
+      log.debug("HÃ¤mtade detta driftavbrott:" + driftavbrott);
 
       lastFetch = new Date().getTime();
     }
     catch (WebServiceException wse) {
-      log.warn("Det gick inte att hämta information om pågående driftavbrott.", wse);
+      log.warn("Det gick inte att hÃ¤mta information om pÃ¥gÃ¥ende driftavbrott.", wse);
     }
   }
 
@@ -198,7 +198,7 @@ public class DriftavbrottFilter implements Filter {
    * Initierar filtret.
    *
    * @param filterConfig Aktuell konfiguration
-   * @throws ServletException Om initieringen inte kan utföras
+   * @throws ServletException Om initieringen inte kan utfÃ¶ras
    */
   @Override
   public void init(final FilterConfig filterConfig) throws ServletException {
@@ -215,8 +215,8 @@ public class DriftavbrottFilter implements Filter {
       catch(NumberFormatException e) {
         log.debug(
             "Kunde inte omvandla filterparameter med namn " + PARAMETER_MARGINAL
-                + " och värdet " + marginalParameterValue
-                + " till en integer. Sätter värdet till 0.");
+                + " och vÃ¤rdet " + marginalParameterValue
+                + " till en integer. SÃ¤tter vÃ¤rdet till 0.");
         marginal = 0;
       }
     }
@@ -225,17 +225,17 @@ public class DriftavbrottFilter implements Filter {
     }
 
     if (debugEnabled) {
-      log.debug("Kanaler är '" + kanaler + "'.");
-      log.debug("Driftavbrottsida är '" + sida + "'.");
-      log.debug("System är '" + system + "'.");
-      log.debug("Marginal är '" + marginal + "'.");
+      log.debug("Kanaler Ã¤r '" + kanaler + "'.");
+      log.debug("Driftavbrottsida Ã¤r '" + sida + "'.");
+      log.debug("System Ã¤r '" + system + "'.");
+      log.debug("Marginal Ã¤r '" + marginal + "'.");
     }
   }
 
   /**
-   * Avgör om åtkomst är tillåten eller inte.
+   * AvgÃ¶r om Ã¥tkomst Ã¤r tillÃ¥ten eller inte.
    *
-   * @return <code>true</code> om åtkomst inte är tillåten, annars <code>false</code>
+   * @return <code>true</code> om Ã¥tkomst inte Ã¤r tillÃ¥ten, annars <code>false</code>
    */
   private boolean isDriftavbrott(Driftavbrott driftavbrott) {
     return driftavbrott != null;

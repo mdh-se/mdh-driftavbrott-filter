@@ -1,24 +1,24 @@
 # mdh-driftavbrott-filter
 
-Ett ServletFilter för webbapplikationer skrivna i Java. Gör att man kan begränsa
-åtkomst till resurser i en webbapplikation baserat på information om
+Ett ServletFilter fÃ¶r webbapplikationer skrivna i Java. GÃ¶r att man kan begrÃ¤nsa
+Ã¥tkomst till resurser i en webbapplikation baserat pÃ¥ information om
 driftavbrott.
 
 ## Konfigurera
 
-Så här kan en konfiguration se ut i `web.xml`:
+SÃ¥ hÃ¤r kan en konfiguration se ut i `web.xml`:
 
 ```
   <filter>
     <description>
-      Utför en kontroll av att resursen får användas vid tiden för accessen.
+      UtfÃ¶r en kontroll av att resursen fÃ¥r anvÃ¤ndas vid tiden fÃ¶r accessen.
     </description>
     <filter-name>DriftavbrottFilter</filter-name>
     <filter-class>se.mdh.driftavbrott.filter.DriftavbrottFilter</filter-class>
     <init-param>
       <description>
-        De kanaler som vi ska lyssna på. Om man vill lyssna på flera kanaler
-        så ska de separeras med kommatecken.
+        De kanaler som vi ska lyssna pÃ¥. Om man vill lyssna pÃ¥ flera kanaler
+        sÃ¥ ska de separeras med kommatecken.
       </description>
       <param-name>kanaler</param-name>
       <param-value>ladok.produktionssattning,ladok.uppgradering</param-value>
@@ -26,14 +26,14 @@ Så här kan en konfiguration se ut i `web.xml`:
     <init-param>
       <description>
         Den sida som ska visas om den resurs som filtret skyddar inte ska vara
-        tillgänglig vid tiden för accessen.
+        tillgÃ¤nglig vid tiden fÃ¶r accessen.
       </description>
       <param-name>sida</param-name>
       <param-value>/WEB-INF/jsp/fel/driftavbrott.jsp</param-value>
     </init-param>
     <init-param>
       <description>
-        ArtifactId för det system som är intresserat av information om
+        ArtifactId fÃ¶r det system som Ã¤r intresserat av information om
         driftavbrott.
       </description>
       <param-name>system</param-name>
@@ -41,7 +41,7 @@ Så här kan en konfiguration se ut i `web.xml`:
     </init-param>
     <init-param>
           <description>
-            Marginaler i minuter för kontroll av driftavbrott. 
+            Marginaler i minuter fÃ¶r kontroll av driftavbrott. 
           </description>
           <param-name>marginal</param-name>
           <param-value>15</param-value>
@@ -54,9 +54,9 @@ Så här kan en konfiguration se ut i `web.xml`:
   </filter-mapping>
 ```
 
-Eftersom produkten använder mdh-driftavbrott-ws-client behöver den
-konfigurationsfilen `se.mdh.driftavbrott.properties` som ska innehålla en URL
-till mdh-driftavbrott-service. Till exempel så här:
+Eftersom produkten anvÃ¤nder mdh-driftavbrott-ws-client behÃ¶ver den
+konfigurationsfilen `se.mdh.driftavbrott.properties` som ska innehÃ¥lla en URL
+till mdh-driftavbrott-service. Till exempel sÃ¥ hÃ¤r:
 
 ```
 se.mdh.driftavbrott.service.url=http://localhost:3301/mdh-driftavbrott/v1
@@ -64,9 +64,9 @@ se.mdh.driftavbrott.service.url=http://localhost:3301/mdh-driftavbrott/v1
 
 ## Skapa en JSP i din applikation
 
-Förutom själva filterkonfigurationen behöver applikationen även en dedikerad JSP
-som kan förse användarna med information om driftavbrott. Så här kan en enkel
-sådan se ut som placeras i filen `/WEB-INF/jsp/fel/driftavbrott.jsp`:
+FÃ¶rutom sjÃ¤lva filterkonfigurationen behÃ¶ver applikationen Ã¤ven en dedikerad JSP
+som kan fÃ¶rse anvÃ¤ndarna med information om driftavbrott. SÃ¥ hÃ¤r kan en enkel
+sÃ¥dan se ut som placeras i filen `/WEB-INF/jsp/fel/driftavbrott.jsp`:
 
 ```
 <%@ page contentType="text/html" %>
@@ -98,13 +98,13 @@ sådan se ut som placeras i filen `/WEB-INF/jsp/fel/driftavbrott.jsp`:
 </html>
 ```
 
-I den `ResourceBundle` som följer med så finns `sida.titel` och `sida.rubrik`
-definierade, samt texter för några vanliga typer av avbrott t.ex. `ladok.backup`
-och `ladok.uppgradering`. Om du vill ha ett generellt meddelande för alla system
-så kan du använda kanalen `default` vilken också är inkluderad.  
+I den `ResourceBundle` som fÃ¶ljer med sÃ¥ finns `sida.titel` och `sida.rubrik`
+definierade, samt texter fÃ¶r nÃ¥gra vanliga typer av avbrott t.ex. `ladok.backup`
+och `ladok.uppgradering`. Om du vill ha ett generellt meddelande fÃ¶r alla system
+sÃ¥ kan du anvÃ¤nda kanalen `default` vilken ocksÃ¥ Ã¤r inkluderad.  
 
-Om du inte är nöjd med meddelandena i bifogad `ResourceBundle` kan du skapa en
+Om du inte Ã¤r nÃ¶jd med meddelandena i bifogad `ResourceBundle` kan du skapa en
 egen och referera till den med 
 ```
-<fmt:setBundle basename="/sökväg/till/din/egen/ResourceBundle" scope="page"/>
+<fmt:setBundle basename="/sÃ¶kvÃ¤g/till/din/egen/ResourceBundle" scope="page"/>
 ```
