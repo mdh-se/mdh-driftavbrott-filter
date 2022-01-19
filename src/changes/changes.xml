@@ -5,6 +5,7 @@
   </properties>
   <body>
     <release version="2.4.1" date="2022-MM-SS">
+      <action>Lägg till en Jenkinsfile.</action>
       <action>Konvertera källkoden till UTF-8 encoding.</action>
     </release>
     <release version="2.4.0" date="2020-03-27">
