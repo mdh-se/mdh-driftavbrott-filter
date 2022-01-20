@@ -4,9 +4,10 @@
     <title>Ändringar</title>
   </properties>
   <body>
-    <release version="2.4.1" date="2022-MM-SS">
+    <release version="2.4.1" date="2022-MM-DD">
       <action>Lägg till en Jenkinsfile.</action>
       <action>Konvertera källkoden till UTF-8 encoding.</action>
+      <action>Uppdatera till mdh-parent:48.</action>
     </release>
     <release version="2.4.0" date="2020-03-27">
       <action issue="DRIFTAVBROTT-8">Migrera från Joda-Time till Java 8 time API.</action>
