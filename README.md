@@ -37,15 +37,17 @@ Så här kan en konfiguration se ut i `web.xml`:
         driftavbrott.
       </description>
       <param-name>system</param-name>
-      <param-value>mdh-parkering</param-value>
+      <!-- Här nedan filtrerar vi in artifactId för den användande webbapplikationen. -->
+      <!-- Det kräver att produkten är konfigurerad att filtrera web.xml. -->
+      <param-value>${project.artifactId}</param-value>
     </init-param>
     <init-param>
-          <description>
-            Marginaler i minuter för kontroll av driftavbrott. 
-          </description>
-          <param-name>marginal</param-name>
-          <param-value>15</param-value>
-        </init-param>
+      <description>
+        Marginaler i minuter för kontroll av driftavbrott. 
+      </description>
+      <param-name>marginal</param-name>
+      <param-value>15</param-value>
+    </init-param>
   </filter>
   ...
   <filter-mapping>
@@ -70,8 +72,8 @@ sådan se ut som placeras i filen `/WEB-INF/jsp/fel/driftavbrott.jsp`:
 
 ```
 <%@ page contentType="text/html" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <fmt:setBundle basename="se.mdh.driftavbrott.filter.Driftavbrott" scope="page"/>
 
@@ -101,10 +103,10 @@ sådan se ut som placeras i filen `/WEB-INF/jsp/fel/driftavbrott.jsp`:
 I den `ResourceBundle` som följer med så finns `sida.titel` och `sida.rubrik`
 definierade, samt texter för några vanliga typer av avbrott t.ex. `ladok.backup`
 och `ladok.uppgradering`. Om du vill ha ett generellt meddelande för alla system
-så kan du använda kanalen `default` vilken också är inkluderad.  
+så kan du använda kanalen `default` vilken också är inkluderad.
 
 Om du inte är nöjd med meddelandena i bifogad `ResourceBundle` kan du skapa en
 egen och referera till den med 
 ```
-<fmt:setBundle basename="/sökväg/till/din/egen/ResourceBundle" scope="page"/>
+<fmt:setBundle basename="package.till.din.egen.ResourceBundle" scope="page"/>
 ```
