@@ -5,6 +5,7 @@
   </properties>
   <body>
     <release version="2.5.0" date="2023-MM-DD">
+      <action issue="DRIFTAVBROTT-43">Lägg till en init-param i filtret som exkluderar ett eller flera URI-patterns från driftavbrott.</action>
       <action>Lägg till en Jenkinsfile.</action>
       <action>Konvertera källkoden till UTF-8 encoding.</action>
       <action>Uppgradera till mdh-parent:53.</action>

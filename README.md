@@ -17,6 +17,15 @@ Så här kan en konfiguration se ut i `web.xml`:
     <filter-class>se.mdh.driftavbrott.filter.DriftavbrottFilter</filter-class>
     <init-param>
       <description>
+        De sökvägar som ska undantas från driftavbrott, t.ex. end-points för
+        övervakning. Om man vill undanta flera sökvägar så ska de separeras med
+        mellanslag.
+      </description>
+      <param-name>excludes</param-name>
+      <param-value>/actuator/health</param-value>
+    </init-param>
+    <init-param>
+      <description>
         De kanaler som vi ska lyssna på. Om man vill lyssna på flera kanaler
         så ska de separeras med kommatecken.
       </description>

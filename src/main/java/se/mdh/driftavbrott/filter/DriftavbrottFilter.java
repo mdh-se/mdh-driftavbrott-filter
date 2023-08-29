@@ -2,6 +2,7 @@ package se.mdh.driftavbrott.filter;
 
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -12,6 +13,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.ws.WebServiceException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -31,6 +33,15 @@ import se.mdh.driftavbrott.modell.Driftavbrott;
     &lt;/description&gt;
     &lt;filter-name&gt;DriftavbrottFilter&lt;/filter-name&gt;
     &lt;filter-class&gt;se.mdh.driftavbrott.filter.DriftavbrottFilter&lt;/filter-class&gt;
+    &lt;init-param&gt;
+      &lt;description&gt;
+        De sökvägar som ska undantas från driftavbrott, t.ex. end-points för
+        övervakning. Om man vill undanta flera sökvägar så ska de separeras med
+        mellanslag.
+      &lt;/description&gt;
+      &lt;param-name&gt;excludes&lt;/param-name&gt;
+      &lt;param-value&gt;/actuator/health&lt;/param-value&gt;
+    &lt;/init-param&gt;
     &lt;init-param&gt;
       &lt;description&gt;
         De kanaler som vi ska lyssna på. Om man vill lyssna på flera kanaler
@@ -85,6 +96,12 @@ public class DriftavbrottFilter implements Filter {
   private static final int CACHE_MILLIS = 60000;
   private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
   /**
+   * Namn på en init-parameter, som anger en eller flera context-relativa
+   * sökvägar som ska undantas från driftavbrottsfiltret.
+   * Om man vill undanta flera sökvägar så ska de separeras med mellanslag.
+   */
+  private static final String PARAMETER_EXCLUDES = "excludes";
+  /**
    * Namn på en init-parameter, som anger kanalerna som vi ska lyssna på.
    * Om man vill lyssna på flera kanaler så ska de separeras med kommatecken.
    */
@@ -111,6 +128,7 @@ public class DriftavbrottFilter implements Filter {
    * Pågående driftavbrott.
    */
   private Driftavbrott driftavbrott;
+  private List<String> excludes;
   private DriftavbrottFacade facade;
   private String kanaler;
   private long lastFetch = 0;
@@ -127,6 +145,7 @@ public class DriftavbrottFilter implements Filter {
   @Override
   public void destroy() {
     driftavbrott = null;
+    excludes = null;
     facade = null;
     kanaler = null;
     sida = null;
@@ -154,8 +173,21 @@ public class DriftavbrottFilter implements Filter {
       fetchDriftavbrott();
     }
 
-    if (isDriftavbrott(driftavbrott)) {
-      log.info("Tidpunkten för accessen begränsas av ett driftavbrottsfilter för kanalen "
+    // Undersök om angiven sökväg ska undantas från driftavbrott
+    String path = null;
+    if(request instanceof HttpServletRequest) {
+      HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+      path = httpServletRequest.getRequestURI()
+          .substring(httpServletRequest.getContextPath().length());
+    }
+    if(isExcluded(excludes, path)) {
+      log.debug("Anropad sökväg '" + path
+                    + "' är undantagen från driftavbrott.");
+      filterChain.doFilter(request, response);
+    }
+    else if(isDriftavbrott(driftavbrott)) {
+      log.info("Tidpunkten för accessen till sökvägen '" + path
+                   + "' begränsas av ett driftavbrottsfilter för kanalen "
                    + driftavbrott.getKanal() + " som är aktivt under tidsperioden: "
                    + DATE_TIME_FORMATTER.format(driftavbrott.getStart()) + " - "
                    + DATE_TIME_FORMATTER.format(driftavbrott.getSlut())
@@ -204,6 +236,7 @@ public class DriftavbrottFilter implements Filter {
   public void init(final FilterConfig filterConfig) throws ServletException {
     final boolean debugEnabled = log.isDebugEnabled();
 
+    excludes = parseExcludes(filterConfig.getInitParameter(PARAMETER_EXCLUDES));
     kanaler = StringUtils.defaultString(filterConfig.getInitParameter(PARAMETER_KANALER));
     sida = StringUtils.defaultString(filterConfig.getInitParameter(PARAMETER_SIDA));
     system = StringUtils.defaultString(filterConfig.getInitParameter(PARAMETER_SYSTEM));
@@ -225,6 +258,7 @@ public class DriftavbrottFilter implements Filter {
     }
 
     if (debugEnabled) {
+      log.debug("Excludes är '" + excludes + "'.");
       log.debug("Kanaler är '" + kanaler + "'.");
       log.debug("Driftavbrottsida är '" + sida + "'.");
       log.debug("System är '" + system + "'.");
@@ -239,5 +273,40 @@ public class DriftavbrottFilter implements Filter {
    */
   private boolean isDriftavbrott(Driftavbrott driftavbrott) {
     return driftavbrott != null;
+  }
+
+  /**
+   * Kontrollera om en path ska exkluderas från driftavbrott eller inte.
+   *
+   * @param excludes De sökvägar som ska exkluderas
+   * @param path Sökvägen som ska kontrolleras
+   * @return <code>true</code> om det finns en exkludering som utgör ett prefix till sökvägen, annars <code>false</code>
+   */
+  static boolean isExcluded(List<String> excludes, String path) {
+    if(path == null) {
+      return false;
+    }
+    for(String exclude : excludes) {
+      if(path.startsWith(exclude)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Parsa ut eventuella excludes från parametern.
+   *
+   * @param excludesParameter En mellanslags-separerad String med excludes
+   * @return En List som kan vara tom men aldrig <code>null</code>
+   */
+  static List<String> parseExcludes(String excludesParameter) {
+    String[] excludesArray = StringUtils.split(excludesParameter, " ");
+    if(excludesArray == null) {
+      return new ArrayList<>();
+    }
+    else {
+      return Arrays.asList(excludesArray);
+    }
   }
 }
