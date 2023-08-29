@@ -4,11 +4,12 @@
     <title>Ändringar</title>
   </properties>
   <body>
-    <release version="2.4.1" date="2022-MM-DD">
+    <release version="2.5.0" date="2023-MM-DD">
       <action>Lägg till en Jenkinsfile.</action>
       <action>Konvertera källkoden till UTF-8 encoding.</action>
-      <action>Uppdatera till mdh-parent:48.</action>
-    </release>
+      <action>Uppgradera till mdh-parent:53.</action>
+      <action>Uppdatera beroenden till commons-lang3:3.12.0, mdh-driftavbrott-modell:1.5.0 och mdh-driftavbrott-ws-client:2.5.0.</action>
+  </release>
     <release version="2.4.0" date="2020-03-27">
       <action issue="DRIFTAVBROTT-8">Migrera från Joda-Time till Java 8 time API.</action>
       <action>Uppdatera beroenden till mdh-driftavbrott-modell:1.4.1 och mdh-driftavbrott-ws-client:2.4.0.</action>
