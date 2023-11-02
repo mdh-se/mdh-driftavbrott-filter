@@ -4,16 +4,20 @@
     <title>Ändringar</title>
   </properties>
   <body>
+    <release version="2.6.0" date="2023-MM-DD">
+      <action>Uppgradera från mdh-driftavbrott-ws-client:2 till mdh-driftavbrott-facade:3.</action>
+      <action>Byt beroende från jax-ws-api till javax.ws.rs-api.</action>
+    </release>
     <release version="2.5.1" date="2023-11-02">
       <action>Uppdatera beroenden till mdh-driftavbrott-modell:1.5.1 och mdh-driftavbrott-ws-client:2.5.2.</action>
-  </release>
+    </release>
     <release version="2.5.0" date="2023-08-30">
       <action issue="DRIFTAVBROTT-43">Lägg till en init-param i filtret som exkluderar ett eller flera URI-patterns från driftavbrott.</action>
       <action>Lägg till en Jenkinsfile.</action>
       <action>Konvertera källkoden till UTF-8 encoding.</action>
       <action>Uppgradera till mdh-parent:53.</action>
       <action>Uppdatera beroenden till commons-lang3:3.12.0, mdh-driftavbrott-modell:1.5.0 och mdh-driftavbrott-ws-client:2.5.0.</action>
-  </release>
+    </release>
     <release version="2.4.0" date="2020-03-27">
       <action issue="DRIFTAVBROTT-8">Migrera från Joda-Time till Java 8 time API.</action>
       <action>Uppdatera beroenden till mdh-driftavbrott-modell:1.4.1 och mdh-driftavbrott-ws-client:2.4.0.</action>

@@ -14,11 +14,11 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.ws.WebServiceException;
+import javax.ws.rs.WebApplicationException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import se.mdh.driftavbrott.client.DriftavbrottFacade;
+import se.mdh.driftavbrott.facade.DriftavbrottFacade;
 import se.mdh.driftavbrott.modell.Driftavbrott;
 
 /**
@@ -221,8 +221,8 @@ public class DriftavbrottFilter implements Filter {
 
       lastFetch = new Date().getTime();
     }
-    catch (WebServiceException wse) {
-      log.warn("Det gick inte att hämta information om pågående driftavbrott.", wse);
+    catch (WebApplicationException wae) {
+      log.warn("Det gick inte att hämta information om pågående driftavbrott.", wae);
     }
   }
 
