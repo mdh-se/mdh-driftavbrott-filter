@@ -4,6 +4,9 @@
     <title>Ändringar</title>
   </properties>
   <body>
+    <release version="2.5.1" date="2023-11-02">
+      <action>Uppdatera beroenden till mdh-driftavbrott-modell:1.5.1 och mdh-driftavbrott-ws-client:2.5.2.</action>
+  </release>
     <release version="2.5.0" date="2023-08-30">
       <action issue="DRIFTAVBROTT-43">Lägg till en init-param i filtret som exkluderar ett eller flera URI-patterns från driftavbrott.</action>
       <action>Lägg till en Jenkinsfile.</action>
