@@ -11,7 +11,7 @@
 
   <groupId>se.mdh.driftavbrott</groupId>
   <artifactId>mdh-driftavbrott-filter</artifactId>
-  <version>2.6.0</version>
+  <version>2.6.1-SNAPSHOT</version>
 
   <name>${project.groupId}:${project.artifactId}</name>
   <description>Ett servlet-filter för driftavbrott.</description>
@@ -20,7 +20,7 @@
   <scm>
     <connection>scm:git:https://github.com/mdh-se/${project.artifactId}.git</connection>
     <developerConnection>scm:git:https://github.com/mdh-se/${project.artifactId}.git</developerConnection>
-    <tag>mdh-driftavbrott-filter-2.6.0</tag>
+    <tag>HEAD</tag>
     <url>https://github.com/mdh-se/${project.artifactId}</url>
   </scm>
 
