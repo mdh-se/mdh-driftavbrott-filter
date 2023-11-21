@@ -4,9 +4,10 @@
     <title>Ändringar</title>
   </properties>
   <body>
-    <release version="2.6.0" date="2023-MM-DD">
+    <release version="2.6.0" date="2023-11-21">
       <action>Uppgradera från mdh-driftavbrott-ws-client:2 till mdh-driftavbrott-facade:3.</action>
       <action>Byt beroende från jax-ws-api till javax.ws.rs-api.</action>
+      <action>Uppdatera till mdh-parent:56.</action>
     </release>
     <release version="2.5.1" date="2023-11-02">
       <action>Uppdatera beroenden till mdh-driftavbrott-modell:1.5.1 och mdh-driftavbrott-ws-client:2.5.2.</action>
