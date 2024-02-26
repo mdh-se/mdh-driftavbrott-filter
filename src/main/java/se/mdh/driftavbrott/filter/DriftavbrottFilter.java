@@ -90,6 +90,7 @@ public class DriftavbrottFilter implements Filter {
   private static final String ATTRIBUTE_MEDDELANDE_KEY = "meddelande_key";
   private static final String ATTRIBUTE_SLUT = "slut";
   private static final String ATTRIBUTE_START = "start";
+  private static final String ATTRIBUTE_DRIFTAVBROTT = "driftavbrott";
   /**
    * Antal millisekunder som vi ska cacha ett driftavbrott.
    */
@@ -197,6 +198,7 @@ public class DriftavbrottFilter implements Filter {
       request.setAttribute(ATTRIBUTE_MEDDELANDE_KEY, driftavbrott.getKanal());
       request.setAttribute(ATTRIBUTE_SLUT, DATE_TIME_FORMATTER.format(driftavbrott.getSlut()));
       request.setAttribute(ATTRIBUTE_START, DATE_TIME_FORMATTER.format(driftavbrott.getStart()));
+      request.setAttribute(ATTRIBUTE_DRIFTAVBROTT, driftavbrott);
 
       RequestDispatcher rd = request.getRequestDispatcher(sida);
       rd.forward(request, response);

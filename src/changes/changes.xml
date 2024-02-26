@@ -4,6 +4,9 @@
     <title>Ändringar</title>
   </properties>
   <body>
+    <release version="2.6.1" date="2024-02-26">
+      <action issue="INFRA-1848">Exponera driftavbrottsobjektet i requestet.</action>
+    </release>
     <release version="2.6.0" date="2023-11-21">
       <action>Uppgradera från mdh-driftavbrott-ws-client:2 till mdh-driftavbrott-facade:3.</action>
       <action>Byt beroende från jax-ws-api till javax.ws.rs-api.</action>
