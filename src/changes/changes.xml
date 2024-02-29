@@ -4,7 +4,8 @@
     <title>Ändringar</title>
   </properties>
   <body>
-    <release version="2.6.2" date="2024-02-26">
+    <release version="2.6.2" date="2024-02-29">
+      <action>Uppdatera till mdh-parent:56.</action>
       <action issue="INFRA-1848">Gör det möjligt att konfigurera en DriftavbrottFacade med en parameter</action>
     </release>
     <release version="2.6.1" date="2024-02-26">
