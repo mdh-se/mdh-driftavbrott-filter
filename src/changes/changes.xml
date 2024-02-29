@@ -4,6 +4,9 @@
     <title>Ändringar</title>
   </properties>
   <body>
+    <release version="2.6.2" date="2024-02-26">
+      <action issue="INFRA-1848">Gör det möjligt att konfigurera en DriftavbrottFacade med en parameter</action>
+    </release>
     <release version="2.6.1" date="2024-02-26">
       <action issue="INFRA-1848">Exponera driftavbrottsobjektet i requestet.</action>
     </release>

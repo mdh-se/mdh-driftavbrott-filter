@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -87,10 +88,10 @@ public class DriftavbrottFilter implements Filter {
    * <p>
    * Observera att värdet av denna inte får innehålla en punkt.
    */
-  private static final String ATTRIBUTE_MEDDELANDE_KEY = "meddelande_key";
-  private static final String ATTRIBUTE_SLUT = "slut";
-  private static final String ATTRIBUTE_START = "start";
-  private static final String ATTRIBUTE_DRIFTAVBROTT = "driftavbrott";
+  public static final String ATTRIBUTE_MEDDELANDE_KEY = "meddelande_key";
+  public static final String ATTRIBUTE_SLUT = "slut";
+  public static final String ATTRIBUTE_START = "start";
+  public static final String ATTRIBUTE_DRIFTAVBROTT = "driftavbrott";
   /**
    * Antal millisekunder som vi ska cacha ett driftavbrott.
    */
@@ -101,36 +102,40 @@ public class DriftavbrottFilter implements Filter {
    * sökvägar som ska undantas från driftavbrottsfiltret.
    * Om man vill undanta flera sökvägar så ska de separeras med mellanslag.
    */
-  private static final String PARAMETER_EXCLUDES = "excludes";
+  public static final String PARAMETER_EXCLUDES = "excludes";
   /**
    * Namn på en init-parameter, som anger kanalerna som vi ska lyssna på.
    * Om man vill lyssna på flera kanaler så ska de separeras med kommatecken.
    */
-  private static final String PARAMETER_KANALER = "kanaler";
+  public static final String PARAMETER_KANALER = "kanaler";
   /**
    * Namn på den parameter som innehåller den fullständiga sökvägen till
    * driftavbrottsidan som en användare kommer att skickas till om åtkomst
    * till resursen inte är tillåten.
    */
-  private static final String PARAMETER_SIDA = "sida";
+  public static final String PARAMETER_SIDA = "sida";
   /**
    * Namn på en init-parameter, som anger vilket system som vill ha information
    * om driftavbrott, dvs ditt system. Ska anges i form av
    * <code>artifactId</code>.
    */
-  private static final String PARAMETER_SYSTEM = "system";
+  public static final String PARAMETER_SYSTEM = "system";
   /**
    * Namn på en init-parameter, som anger den marginal som skall användas vid frågor om driftavbrott.
    * Marginalen anges som en siffra i minuter.
    */
-  private static final String PARAMETER_MARGINAL = "marginal";
+  public static final String PARAMETER_MARGINAL = "marginal";
+  /**
+   * Namn på en init-parameter, som anger den URL som skall användas vid frågor om driftavbrott.
+   */
+  public static final String PARAMETER_DRIFTAVBROTT_URL = "url";
 
   /**
    * Pågående driftavbrott.
    */
   private Driftavbrott driftavbrott;
   private List<String> excludes;
-  private DriftavbrottFacade facade;
+  DriftavbrottFacade facade;
   private String kanaler;
   private long lastFetch = 0;
   /**
@@ -214,8 +219,7 @@ public class DriftavbrottFilter implements Filter {
   /**
    * Hämta ett pågående driftavbrott från web servicen.
    */
-  private void fetchDriftavbrott() throws IOException {
-    facade = new DriftavbrottFacade();
+  private void fetchDriftavbrott() {
     List<String> kanalLista = Arrays.asList(StringUtils.split(kanaler, ","));
     try {
       driftavbrott = facade.getPagaendeDriftavbrott(kanalLista, system, marginal);
@@ -235,8 +239,23 @@ public class DriftavbrottFilter implements Filter {
    * @throws ServletException Om initieringen inte kan utföras
    */
   @Override
-  public void init(final FilterConfig filterConfig) throws ServletException {
+  public void init(final FilterConfig filterConfig) {
     final boolean debugEnabled = log.isDebugEnabled();
+
+    try {
+      String url = StringUtils.defaultString(filterConfig.getInitParameter(PARAMETER_DRIFTAVBROTT_URL));
+      if(!StringUtils.isEmpty(url)) {
+        Properties properties = new Properties();
+        properties.setProperty("se.mdh.driftavbrott.service.url", url);
+        facade = new DriftavbrottFacade(properties);
+      }
+      else {
+        facade = new DriftavbrottFacade();
+      }
+    }
+    catch(IOException e) {
+      log.error("Kan inte initiera DriftavbrottFacade.", e);
+    }
 
     excludes = parseExcludes(filterConfig.getInitParameter(PARAMETER_EXCLUDES));
     kanaler = StringUtils.defaultString(filterConfig.getInitParameter(PARAMETER_KANALER));
