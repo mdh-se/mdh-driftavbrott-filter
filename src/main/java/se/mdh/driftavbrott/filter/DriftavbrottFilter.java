@@ -236,7 +236,6 @@ public class DriftavbrottFilter implements Filter {
    * Initierar filtret.
    *
    * @param filterConfig Aktuell konfiguration
-   * @throws ServletException Om initieringen inte kan utföras
    */
   @Override
   public void init(final FilterConfig filterConfig) {
