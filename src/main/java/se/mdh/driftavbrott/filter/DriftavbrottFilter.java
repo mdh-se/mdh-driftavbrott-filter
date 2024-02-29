@@ -1,11 +1,16 @@
 package se.mdh.driftavbrott.filter;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.MessageFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.MissingResourceException;
+import java.util.Properties;
+import java.util.ResourceBundle;
 import java.util.Properties;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -15,6 +20,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.WebApplicationException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -130,6 +136,8 @@ public class DriftavbrottFilter implements Filter {
    */
   public static final String PARAMETER_DRIFTAVBROTT_URL = "url";
 
+  public static final String INFO_SUFFIX = ".info";
+
   /**
    * Pågående driftavbrott.
    */
@@ -179,6 +187,9 @@ public class DriftavbrottFilter implements Filter {
       fetchDriftavbrott();
     }
 
+    PrintWriter out = response.getWriter();
+    CharResponseWrapper wrapper = new CharResponseWrapper((HttpServletResponse) response);
+
     // Undersök om angiven sökväg ska undantas från driftavbrott
     String path = null;
     if(request instanceof HttpServletRequest) {
@@ -191,7 +202,7 @@ public class DriftavbrottFilter implements Filter {
                     + "' är undantagen från driftavbrott.");
       filterChain.doFilter(request, response);
     }
-    else if(isDriftavbrott(driftavbrott)) {
+    else if(isDriftavbrott(driftavbrott) && !driftavbrott.getKanal().endsWith(INFO_SUFFIX)) {
       log.info("Tidpunkten för accessen till sökvägen '" + path
                    + "' begränsas av ett driftavbrottsfilter för kanalen "
                    + driftavbrott.getKanal() + " som är aktivt under tidsperioden: "
@@ -208,6 +219,18 @@ public class DriftavbrottFilter implements Filter {
       RequestDispatcher rd = request.getRequestDispatcher(sida);
       rd.forward(request, response);
     }
+    else if(isDriftavbrott(driftavbrott) && driftavbrott.getKanal().endsWith(INFO_SUFFIX)) {
+
+      // Om nuvarande tid är inom intervallet tillåt accessen till den tidsskyddade resursen
+      filterChain.doFilter(request, wrapper);
+
+      String oldResponseString = wrapper.toString();
+
+      ResourceBundle driftavbrottBundle = ResourceBundle.getBundle("se.mdh.driftavbrott.filter.Driftavbrott", wrapper.getLocale());
+      String meddelande = resolveInfoMeddelande(driftavbrottBundle, wrapper);
+
+      insertInfoMeddelandeInResponse(response, oldResponseString, meddelande, out);
+    }
     else {
       log.debug("Tidpunkten för accessen är tillåten");
 
@@ -216,10 +239,43 @@ public class DriftavbrottFilter implements Filter {
     }
   }
 
+  private static void insertInfoMeddelandeInResponse(ServletResponse response, String oldResponseString, String meddelande, PrintWriter out) {
+    int indexOfBodyTagEnding = oldResponseString.indexOf(">",
+                                                         oldResponseString.indexOf("<body") + 1);
+    String pre = oldResponseString.substring(0, indexOfBodyTagEnding + 1);
+    String post = oldResponseString.substring(indexOfBodyTagEnding + 1);
+
+    String newResponseString = pre + "<div class='bg-warning pt-2 pb-2 text-center'>" + meddelande + "</div>" + post;
+
+    out.write(newResponseString);
+    response.setContentLength(newResponseString.length());
+  }
+
+  private String resolveInfoMeddelande(ResourceBundle driftavbrottBundle, CharResponseWrapper wrapper) {
+    String meddelande = "";
+    try {
+      meddelande = driftavbrottBundle.getString(driftavbrott.getKanal());
+    }
+    catch(MissingResourceException e) {
+      log.debug("Ingen översättning hittades för " + driftavbrott.getKanal() + " och locale " + wrapper.getLocale().toString());
+    }
+    if(StringUtils.isEmpty(meddelande)) {
+      meddelande = driftavbrott.getMeddelandeSv();
+      if(wrapper.getLocale().getLanguage().equalsIgnoreCase("en")) {
+        meddelande = driftavbrott.getMeddelandeEn();
+      }
+    }
+    else {
+      meddelande = MessageFormat.format(meddelande, DATE_TIME_FORMATTER.format(driftavbrott.getStart()), DATE_TIME_FORMATTER.format(driftavbrott.getSlut()));
+    }
+    return meddelande;
+  }
+
   /**
    * Hämta ett pågående driftavbrott från web servicen.
    */
-  private void fetchDriftavbrott() {
+  private void fetchDriftavbrott() throws IOException {
+    facade = new DriftavbrottFacade();
     List<String> kanalLista = Arrays.asList(StringUtils.split(kanaler, ","));
     try {
       driftavbrott = facade.getPagaendeDriftavbrott(kanalLista, system, marginal);
