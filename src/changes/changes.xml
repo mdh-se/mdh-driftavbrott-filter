@@ -6,6 +6,7 @@
   <body>
     <release version="2.6.4" date="2024-MM-DD">
       <action issue="HTMLSKIN-109">Lägg till stöd för en banner för driftavbrott</action>
+      <action issue="HTMLSKIN-109">Lägg till stöd WARN och INFO i driftavbrott</action>
     </release>
     <release version="2.6.3" date="2024-02-29">
       <action>Fixa Javadoc</action>

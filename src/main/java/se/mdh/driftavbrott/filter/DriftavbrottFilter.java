@@ -221,7 +221,7 @@ public class DriftavbrottFilter implements Filter {
                     + "' är undantagen från driftavbrott.");
       filterChain.doFilter(request, response);
     }
-    else if(isDriftavbrott(driftavbrott) && !isDriftavbrottNiva(driftavbrott, NivaType.INFO)) {
+    else if(isDriftavbrott(driftavbrott) && !isDriftavbrottNiva(driftavbrott, NivaType.WARN) && !isDriftavbrottNiva(driftavbrott, NivaType.INFO)) {
       log.info("Tidpunkten för accessen till sökvägen '" + path
                    + "' begränsas av ett driftavbrottsfilter för kanalen "
                    + driftavbrott.getKanal() + " som är aktivt under tidsperioden: "
@@ -238,7 +238,7 @@ public class DriftavbrottFilter implements Filter {
       RequestDispatcher rd = request.getRequestDispatcher(sida);
       rd.forward(request, response);
     }
-    else if(isDriftavbrott(driftavbrott) && isDriftavbrottNiva(driftavbrott, NivaType.INFO)) {
+    else if(isDriftavbrott(driftavbrott) && (isDriftavbrottNiva(driftavbrott, NivaType.WARN) || isDriftavbrottNiva(driftavbrott, NivaType.INFO))) {
       CharResponseWrapper wrapper = new CharResponseWrapper((HttpServletResponse) response);
 
       // Om nuvarande tid är inom intervallet tillåt accessen till den tidsskyddade resursen
@@ -247,7 +247,7 @@ public class DriftavbrottFilter implements Filter {
       ResourceBundle driftavbrottBundle = ResourceBundle.getBundle("se.mdh.driftavbrott.filter.Driftavbrott", getResolvedLocale(wrapper));
       String meddelande = resolveInfoMeddelande(driftavbrottBundle, wrapper);
 
-      insertInfoMeddelandeInResponse(wrapper, meddelande);
+      insertMeddelandeInResponse(wrapper, meddelande, driftavbrott.getNiva());
     }
     else {
       log.debug("Tidpunkten för accessen är tillåten");
@@ -257,7 +257,7 @@ public class DriftavbrottFilter implements Filter {
     }
   }
 
-  private static void insertInfoMeddelandeInResponse(CharResponseWrapper wrapper,String meddelande) throws IOException {
+  private static void insertMeddelandeInResponse(CharResponseWrapper wrapper, String meddelande, NivaType nivaType) throws IOException {
     ServletResponse response = wrapper.getResponse();
     PrintWriter out = response.getWriter();
     String oldResponseString = wrapper.toString();
@@ -266,7 +266,12 @@ public class DriftavbrottFilter implements Filter {
     Element bodyElement = doc.body();
 
     Set<String> classes = new HashSet<>();
-    classes.add("bg-warning");
+    if(nivaType.equals(NivaType.WARN)) {
+      classes.add("bg-warning");
+    }
+    else {
+      classes.add("bg-info");
+    }
     classes.add("pt-2");
     classes.add("pb-2");
     classes.add("text-center");
