@@ -285,7 +285,6 @@ public class DriftavbrottFilter implements Filter {
     String newResponseString = doc.toString();
 
     out.write(newResponseString);
-    response.setContentLength(newResponseString.length());
   }
 
   private String resolveInfoMeddelande(ResourceBundle driftavbrottBundle, Locale locale) {
