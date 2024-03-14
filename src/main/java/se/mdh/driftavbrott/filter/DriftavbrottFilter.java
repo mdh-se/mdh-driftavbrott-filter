@@ -244,8 +244,8 @@ public class DriftavbrottFilter implements Filter {
       // Om nuvarande tid är inom intervallet tillåt accessen till den tidsskyddade resursen
       filterChain.doFilter(request, wrapper);
 
-      ResourceBundle driftavbrottBundle = ResourceBundle.getBundle("se.mdh.driftavbrott.filter.Driftavbrott", getResolvedLocale(wrapper));
-      String meddelande = resolveInfoMeddelande(driftavbrottBundle, wrapper);
+      ResourceBundle driftavbrottBundle = ResourceBundle.getBundle("se.mdh.driftavbrott.filter.Driftavbrott", getResolvedLocale(request));
+      String meddelande = resolveInfoMeddelande(driftavbrottBundle, getResolvedLocale(request));
 
       insertMeddelandeInResponse(wrapper, meddelande, driftavbrott.getNiva());
     }
@@ -288,17 +288,16 @@ public class DriftavbrottFilter implements Filter {
     response.setContentLength(newResponseString.length());
   }
 
-  private String resolveInfoMeddelande(ResourceBundle driftavbrottBundle, CharResponseWrapper wrapper) {
-    Locale resolvedLocale = getResolvedLocale(wrapper);
+  private String resolveInfoMeddelande(ResourceBundle driftavbrottBundle, Locale locale) {
     String meddelande = "";
     try {
       meddelande = driftavbrottBundle.getString(driftavbrott.getKanal());
     }
     catch(MissingResourceException e) {
-      log.debug("Ingen översättning hittades för " + driftavbrott.getKanal() + " och locale " + resolvedLocale.toString());
+      log.debug("Ingen översättning hittades för " + driftavbrott.getKanal() + " och locale " + locale.toString());
     }
     if(StringUtils.isEmpty(meddelande)) {
-      if(resolvedLocale.getLanguage().equalsIgnoreCase("en")) {
+      if(locale.getLanguage().equalsIgnoreCase("en")) {
         meddelande = driftavbrott.getMeddelandeEn();
       }
       else {
@@ -311,8 +310,8 @@ public class DriftavbrottFilter implements Filter {
     return meddelande;
   }
 
-  private Locale getResolvedLocale(CharResponseWrapper wrapper) {
-    return locale != null ? locale : wrapper.getLocale();
+  private Locale getResolvedLocale(ServletRequest request) {
+    return locale != null ? locale : request.getLocale();
   }
 
   /**
