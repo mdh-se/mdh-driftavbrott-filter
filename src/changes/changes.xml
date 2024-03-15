@@ -4,7 +4,7 @@
     <title>Ändringar</title>
   </properties>
   <body>
-    <release version="2.7.4" date="2024-MM-DD">
+    <release version="2.7.4" date="2024-03-15">
       <action>Dölj banner vid utskrift, mha Bootstrap 4-klass</action>
     </release>
     <release version="2.7.3" date="2024-03-14">
