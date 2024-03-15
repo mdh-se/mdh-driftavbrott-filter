@@ -83,9 +83,9 @@ import se.mdh.driftavbrott.modell.NivaType;
     &lt;/init-param&gt;
 &lt;init-param&gt;
       &lt;description&gt;
-        Tvinga filtret att skriva meddelanden på visst språk
+        Tvinga filtret att skriva meddelanden på ett visst språk
       &lt;/description&gt;
-      &lt;param-name&gt;lang&lt;/param-name&gt;
+      &lt;param-name&gt;sprak&lt;/param-name&gt;
       &lt;param-value&gt;sv&lt;/param-value&gt;
     &lt;/init-param&gt;
   &lt;/filter&gt;
@@ -151,7 +151,7 @@ public class DriftavbrottFilter implements Filter {
    * Namn på en init-parameter, som anger den Locale som ska gälla för att visa driftavbrottsmeddelanden.
    * Är inte parametern angiven i konfigurationen så används den locale som finns i ServetResponse-objektet.
    */
-  public static final String PARAMETER_LANGUAGE = "lang";
+  public static final String PARAMETER_SPRAK = "sprak";
   /**
    * Namn på en init-parameter, som anger den URL som skall användas vid frågor om driftavbrott.
    */
@@ -376,7 +376,7 @@ public class DriftavbrottFilter implements Filter {
       marginal = 0;
     }
 
-    String localeParameter = StringUtils.defaultString(filterConfig.getInitParameter(PARAMETER_LANGUAGE));
+    String localeParameter = StringUtils.defaultString(filterConfig.getInitParameter(PARAMETER_SPRAK));
     if(StringUtils.isNotEmpty(localeParameter)) {
       locale = LocaleUtils.toLocale(localeParameter);
     }
