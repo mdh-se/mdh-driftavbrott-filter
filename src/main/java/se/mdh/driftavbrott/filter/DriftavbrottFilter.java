@@ -275,6 +275,7 @@ public class DriftavbrottFilter implements Filter {
     classes.add("pt-2");
     classes.add("pb-2");
     classes.add("text-center");
+    classes.add("d-print-none");
 
     Element meddelandeElement = new Element(Tag.valueOf("div"), "")
         .classNames(classes)
