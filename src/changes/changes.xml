@@ -4,24 +4,29 @@
     <title>Ändringar</title>
   </properties>
   <body>
+    <release version="2.8.0" date="2024-04-12">
+      <action issue="JAVA-68">Ersätt javax-dependencies med motsvarande jakarta-dependencies.</action>
+      <action>Uppdatera till mdh-parent:60.</action>
+      <action>Uppdatera beroenden till mdh-driftavbrott-modell:1.6.1 och mdh-driftavbrott-filter:3.1.0.</action>
+    </release>
     <release version="2.7.5" date="2024-03-15">
-      <action issue="TENTAMEN-109">Dölj banner vid utskrift, mha Bootstrap 4-klass</action>
-      <action>Ändra konfigurationsparameter från lang till sprak</action>
+      <action issue="TENTAMEN-109">Dölj banner vid utskrift, mha Bootstrap 4-klass.</action>
+      <action>Ändra konfigurationsparameter från lang till sprak.</action>
     </release>
     <release version="2.7.3" date="2024-03-14">
-      <action>Ta bort response.setContentLength</action>
+      <action>Ta bort response.setContentLength.</action>
     </release>
     <release version="2.7.2" date="2024-03-14">
-      <action>Läs locale från requestet</action>
+      <action>Läs locale från requestet.</action>
     </release>
     <release version="2.7.0" date="2024-03-11">
-      <action issue="HTMLSKIN-109">Lägg till stöd för en banner för driftavbrott</action>
-      <action issue="HTMLSKIN-109">Lägg till stöd WARN och INFO i driftavbrott</action>
+      <action issue="HTMLSKIN-109">Lägg till stöd för en banner för driftavbrott.</action>
+      <action issue="HTMLSKIN-109">Lägg till stöd WARN och INFO i driftavbrott.</action>
     </release>
     <release version="2.6.3" date="2024-02-29">
-      <action>Fixa Javadoc</action>
+      <action>Fixa Javadoc,</action>
       <action>Uppdatera till mdh-parent:56.</action>
-      <action issue="INFRA-1848">Gör det möjligt att konfigurera en DriftavbrottFacade med en parameter</action>
+      <action issue="INFRA-1848">Gör det möjligt att konfigurera en DriftavbrottFacade med en parameter,</action>
     </release>
     <release version="2.6.1" date="2024-02-26">
       <action issue="INFRA-1848">Exponera driftavbrottsobjektet i requestet.</action>
