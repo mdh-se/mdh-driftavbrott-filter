@@ -7,7 +7,7 @@
     <release version="2.8.0" date="2024-04-12">
       <action issue="JAVA-68">Ersätt javax-dependencies med motsvarande jakarta-dependencies.</action>
       <action>Uppdatera till mdh-parent:60.</action>
-      <action>Uppdatera beroenden till mdh-driftavbrott-modell:1.6.1 och mdh-driftavbrott-filter:3.1.0.</action>
+      <action>Uppdatera beroenden till mdh-driftavbrott-modell:1.6.1 och mdh-driftavbrott-facade:3.1.0.</action>
     </release>
     <release version="2.7.5" date="2024-03-15">
       <action issue="TENTAMEN-109">Dölj banner vid utskrift, mha Bootstrap 4-klass.</action>
