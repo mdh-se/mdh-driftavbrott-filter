@@ -81,7 +81,7 @@ import se.mdh.driftavbrott.modell.NivaType;
       &lt;param-name&gt;system&lt;/param-name&gt;
       &lt;param-value&gt;mdh-parkering&lt;/param-value&gt;
     &lt;/init-param&gt;
-&lt;init-param&gt;
+    &lt;init-param&gt;
       &lt;description&gt;
         Tvinga filtret att skriva meddelanden på ett visst språk
       &lt;/description&gt;
